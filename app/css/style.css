@@ -1,0 +1,431 @@
+/* ============================================================
+   আল-কুরআন: এক নজরে — ডিজাইন সিস্টেম
+   ============================================================ */
+
+:root {
+  --green-950: #06231b;
+  --green-900: #0a3428;
+  --green-800: #0d4534;
+  --green-700: #116048;
+  --green-600: #177a5b;
+  --green-100: #d9ede4;
+  --green-50:  #edf6f1;
+  --gold-600:  #a97e2f;
+  --gold-500:  #c19a4b;
+  --gold-300:  #e2c98f;
+  --cream:     #faf6ee;
+  --paper:     #ffffff;
+  --ink:       #22322c;
+  --ink-soft:  #55685f;
+  --line:      #e3ddcd;
+  --danger:    #8c3b2e;
+  --shadow: 0 2px 12px rgba(13, 69, 52, .08);
+  --shadow-lg: 0 10px 34px rgba(13, 69, 52, .14);
+  --radius: 14px;
+  --bn: "Hind Siliguri", sans-serif;
+  --bn-serif: "Noto Serif Bengali", serif;
+  --ar: "Amiri", serif;
+  --maxw: 1060px;
+}
+
+[data-theme="dark"] {
+  --cream: #0b1512;
+  --paper: #12211c;
+  --ink: #e4ede8;
+  --ink-soft: #9db3a9;
+  --line: #24382f;
+  --green-50: #16281f;
+  --green-100: #1d3329;
+  --gold-600: #d4af6a;
+  --gold-500: #c9a75a;
+  --shadow: 0 2px 12px rgba(0, 0, 0, .3);
+  --shadow-lg: 0 10px 34px rgba(0, 0, 0, .45);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--bn);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.85;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* সূক্ষ্ম জ্যামিতিক পটভূমি */
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: radial-gradient(var(--line) 1px, transparent 1.4px);
+  background-size: 34px 34px; opacity: .35;
+}
+
+#app-root { position: relative; z-index: 1; }
+
+h1, h2, h3, h4 { font-family: var(--bn-serif); line-height: 1.5; color: var(--green-800); }
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3, [data-theme="dark"] h4 { color: var(--green-100); color: #cfe6d9; }
+b, strong { color: inherit; }
+
+.ar, .ar-inline { font-family: var(--ar); direction: rtl; unicode-bidi: isolate; }
+.ar-inline { font-size: 1.25em; color: var(--green-700); }
+[data-theme="dark"] .ar-inline { color: var(--gold-300); }
+
+/* ---------- হেডার ---------- */
+header.site {
+  background: linear-gradient(160deg, var(--green-900), var(--green-800) 55%, var(--green-700));
+  color: #f2f7f4; padding: 0; position: relative; overflow: hidden;
+}
+header.site::before {
+  content: ""; position: absolute; inset: 0; opacity: .1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M32 4l7 14 15 2-11 11 3 15-14-7-14 7 3-15L10 20l15-2z' fill='none' stroke='%23e2c98f' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 64px;
+}
+.hdr-inner { max-width: var(--maxw); margin: 0 auto; padding: 26px 20px 18px; position: relative; text-align: center; }
+.hdr-bismillah { font-family: var(--ar); font-size: 1.7rem; color: var(--gold-300); display: block; margin-bottom: 4px; }
+.hdr-title { font-family: var(--bn-serif); font-size: clamp(1.6rem, 4vw, 2.3rem); font-weight: 800; color: #fff; }
+.hdr-sub { color: #bcd8cb; font-size: .95rem; margin-top: 2px; }
+.theme-toggle {
+  position: absolute; top: 18px; right: 18px; background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25); color: #fff; border-radius: 50px;
+  padding: 6px 14px; cursor: pointer; font-family: var(--bn); font-size: .85rem;
+}
+.theme-toggle:hover { background: rgba(255,255,255,.22); }
+
+/* ---------- নেভিগেশন ---------- */
+nav.tabs {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--paper); box-shadow: var(--shadow);
+  border-bottom: 2px solid var(--line);
+}
+.tabs-inner {
+  max-width: var(--maxw); margin: 0 auto; display: flex; gap: 2px;
+  overflow-x: auto; scrollbar-width: none; padding: 0 8px;
+}
+.tabs-inner::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 1 0 auto; text-align: center; padding: 12px 14px 9px; cursor: pointer;
+  color: var(--ink-soft); text-decoration: none; font-weight: 500; font-size: .95rem;
+  border-bottom: 3px solid transparent; white-space: nowrap; transition: color .2s, border-color .2s;
+}
+.tab .t-ic { display: block; font-size: 1.05rem; line-height: 1.3; }
+.tab:hover { color: var(--green-700); }
+.tab.active { color: var(--green-700); border-bottom-color: var(--gold-500); font-weight: 600; }
+[data-theme="dark"] .tab.active { color: #cfe6d9; }
+
+/* ---------- লেআউট ---------- */
+main { max-width: var(--maxw); margin: 0 auto; padding: 34px 20px 80px; }
+.page { animation: fadein .45s ease; }
+@keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.page-title { font-size: clamp(1.45rem, 3.4vw, 1.9rem); margin-bottom: 6px; }
+.page-title-orn { color: var(--gold-500); font-size: 1.1rem; letter-spacing: .3em; display: block; margin-bottom: 8px; }
+.lead { color: var(--ink-soft); max-width: 850px; }
+.section { margin-top: 46px; }
+.section > h2 { font-size: 1.35rem; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+.section > h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(to left, transparent, var(--gold-300)); }
+.section-note { color: var(--ink-soft); font-size: .95rem; margin-bottom: 18px; }
+
+.divider-orn { text-align: center; color: var(--gold-500); margin: 40px 0 8px; font-size: 1.2rem; letter-spacing: .6em; }
+
+/* ---------- কার্ড ---------- */
+.card {
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px;
+}
+.grid { display: grid; gap: 16px; }
+.grid.c2 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+.grid.c3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+/* পরিসংখ্যান */
+.stat {
+  text-align: center; padding: 20px 12px; cursor: default; position: relative;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.stat:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.stat .num { font-family: var(--bn-serif); font-size: 2.2rem; font-weight: 800; color: var(--green-700); line-height: 1.2; }
+[data-theme="dark"] .stat .num { color: var(--gold-300); }
+.stat .lbl { font-weight: 600; margin-top: 2px; }
+.stat .nt { font-size: .82rem; color: var(--ink-soft); line-height: 1.55; margin-top: 6px; }
+
+/* মাক্কী-মাদানী দণ্ড */
+.mm-bar { display: flex; height: 46px; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); font-weight: 600; color: #fff; }
+.mm-bar .mk { background: var(--green-700); display: flex; align-items: center; justify-content: center; transition: width 1s ease; }
+.mm-bar .md { background: var(--gold-600); display: flex; align-items: center; justify-content: center; transition: width 1s ease; }
+
+/* তিন মৌলিক বিষয় */
+.theme-card { text-align: center; padding: 28px 20px; position: relative; overflow: hidden; transition: transform .25s, box-shadow .25s; cursor: pointer; }
+.theme-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+.theme-card .t-ar { font-family: var(--ar); font-size: 2rem; color: var(--gold-600); display: block; }
+.theme-card h3 { font-size: 1.3rem; margin: 6px 0 2px; }
+.theme-card .t-short { color: var(--ink-soft); font-size: .92rem; margin-bottom: 10px; }
+.theme-card .t-desc { font-size: .95rem; text-align: right; text-align: start; color: var(--ink); display: none; padding-top: 12px; border-top: 1px dashed var(--line); margin-top: 10px; }
+.theme-card.open .t-desc { display: block; animation: fadein .3s; }
+.theme-card .t-hint { font-size: .78rem; color: var(--gold-600); margin-top: 8px; }
+
+/* তাসরীফ আইটেম */
+.tasrif-item { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; }
+.tasrif-item .ic { font-size: 1.4rem; line-height: 1.6; }
+.tasrif-item b { display: block; color: var(--green-800); }
+[data-theme="dark"] .tasrif-item b { color: #cfe6d9; }
+.tasrif-item p { font-size: .93rem; color: var(--ink-soft); }
+
+/* ---------- অ্যাকর্ডিয়ন (FAQ) ---------- */
+.acc { border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); overflow: hidden; box-shadow: var(--shadow); }
+.acc + .acc { margin-top: 12px; }
+.acc-q {
+  width: 100%; text-align: inherit; background: none; border: 0; font: inherit; color: var(--ink);
+  padding: 16px 20px; cursor: pointer; display: flex; gap: 12px; align-items: flex-start; font-weight: 600;
+}
+.acc-q .qm { color: var(--gold-600); font-family: var(--bn-serif); font-weight: 800; flex-shrink: 0; }
+.acc-q .chev { margin-inline-start: auto; transition: transform .3s; color: var(--ink-soft); flex-shrink: 0; }
+.acc.open .chev { transform: rotate(180deg); }
+.acc-a { max-height: 0; overflow: hidden; transition: max-height .45s ease; }
+.acc-a-inner { padding: 0 20px 18px 46px; color: var(--ink-soft); font-size: .97rem; }
+.acc-a-inner b, .acc-a-inner i { color: var(--ink); }
+
+/* সূত্র */
+.src { margin-top: 26px; font-size: .88rem; color: var(--ink-soft); border-inline-start: 3px solid var(--gold-500); padding: 10px 16px; background: var(--paper); border-radius: 0 10px 10px 0; }
+.src::before { content: "এ পাতার সূত্র: "; font-weight: 700; color: var(--green-700); }
+[data-theme="dark"] .src::before { color: var(--gold-300); }
+
+/* ---------- পাঁচ ধারা ---------- */
+.stream { padding: 0; overflow: hidden; }
+.stream + .stream { margin-top: 16px; }
+.stream-head { display: flex; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; }
+.stream-num {
+  font-family: var(--bn-serif); font-weight: 800; font-size: 1.25rem; color: #fff;
+  width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.s1 .stream-num { background: #116048; } .s2 .stream-num { background: #7a5427; }
+.s3 .stream-num { background: #2b6777; } .s4 .stream-num { background: #5b4a7a; }
+.s5 .stream-num { background: #8c3b2e; }
+.stream-head h3 { font-size: 1.18rem; }
+.stream-head .s-sub { font-size: .85rem; color: var(--ink-soft); }
+.stream-head .s-ar { margin-inline-start: auto; font-family: var(--ar); font-size: 1.3rem; color: var(--gold-600); white-space: nowrap; }
+.stream-body { display: none; padding: 0 22px 20px; }
+.stream.open .stream-body { display: block; animation: fadein .3s; }
+.stream-ex { margin-top: 12px; background: var(--green-50); border-radius: 10px; padding: 12px 16px; font-size: .94rem; }
+.stream-ex::before { content: "কুরআনে যেমন — "; font-weight: 700; color: var(--green-700); }
+[data-theme="dark"] .stream-ex::before { color: var(--gold-300); }
+
+/* ম্যাপিং */
+.map-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+.map-row:last-child { border-bottom: 0; }
+.map-row .arrow { color: var(--gold-600); font-size: 1.3rem; }
+.map-row .to { font-weight: 700; color: var(--green-700); }
+[data-theme="dark"] .map-row .to { color: var(--gold-300); }
+.map-row .d { grid-column: 1 / -1; font-size: .85rem; color: var(--ink-soft); margin-top: -6px; }
+
+/* ---------- কুইজ ---------- */
+.quiz { border: 2px solid var(--gold-300); }
+.quiz-prog { display: flex; gap: 6px; margin-bottom: 16px; }
+.quiz-prog span { flex: 1; height: 6px; border-radius: 6px; background: var(--line); }
+.quiz-prog span.done-ok { background: var(--green-600); }
+.quiz-prog span.done-bad { background: var(--danger); }
+.quiz-prog span.cur { background: var(--gold-500); }
+.quiz-q { font-weight: 600; font-size: 1.05rem; margin-bottom: 16px; }
+.quiz-opts { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.quiz-opt {
+  font: inherit; padding: 11px 16px; border-radius: 10px; border: 1.5px solid var(--line);
+  background: var(--paper); color: var(--ink); cursor: pointer; transition: all .2s; text-align: center;
+}
+.quiz-opt:hover:not(:disabled) { border-color: var(--green-600); background: var(--green-50); }
+.quiz-opt.correct { background: var(--green-600); color: #fff; border-color: var(--green-600); }
+.quiz-opt.wrong { background: var(--danger); color: #fff; border-color: var(--danger); }
+.quiz-opt:disabled { cursor: default; opacity: .85; }
+.quiz-why { margin-top: 14px; background: var(--green-50); padding: 12px 16px; border-radius: 10px; font-size: .95rem; display: none; }
+.quiz-why.show { display: block; animation: fadein .3s; }
+.quiz-next { margin-top: 14px; background: var(--green-700); color: #fff; border: 0; font: inherit; font-weight: 600; padding: 10px 26px; border-radius: 50px; cursor: pointer; display: none; }
+.quiz-next.show { display: inline-block; }
+.quiz-next:hover { background: var(--green-800); }
+.quiz-score { text-align: center; padding: 20px 0 6px; }
+.quiz-score .big { font-family: var(--bn-serif); font-size: 2.4rem; font-weight: 800; color: var(--green-700); }
+[data-theme="dark"] .quiz-score .big { color: var(--gold-300); }
+
+/* ---------- নবীদের টাইমলাইন ---------- */
+.era { margin-top: 44px; }
+.era-head {
+  background: linear-gradient(135deg, var(--green-800), var(--green-700));
+  color: #fff; border-radius: var(--radius); padding: 18px 24px; box-shadow: var(--shadow);
+}
+.era-head h2 { color: #fff; font-size: 1.25rem; }
+.era-head .era-lesson { font-size: .92rem; color: #cde3d7; margin-top: 4px; }
+.timeline { position: relative; margin: 10px 0 0 22px; padding: 18px 0 6px 30px; border-inline-start: 2.5px solid var(--gold-300); }
+[data-theme="dark"] .timeline { border-color: var(--green-700); }
+
+.pcard { position: relative; margin-bottom: 18px; }
+.pcard::before {
+  content: ""; position: absolute; top: 26px; inset-inline-start: -39px;
+  width: 15px; height: 15px; border-radius: 50%; background: var(--gold-500);
+  border: 3px solid var(--cream); box-shadow: 0 0 0 2px var(--gold-500);
+}
+.pcard.ulul::before { background: var(--green-700); box-shadow: 0 0 0 2px var(--green-700); }
+.pcard-head { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; flex-wrap: wrap; }
+.pcard-no { font-family: var(--bn-serif); color: var(--gold-600); font-weight: 800; font-size: .95rem; flex-shrink: 0; }
+.pcard-name { font-family: var(--bn-serif); font-weight: 800; font-size: 1.2rem; color: var(--green-800); }
+[data-theme="dark"] .pcard-name { color: #cfe6d9; }
+.pcard-ar { font-family: var(--ar); font-size: 1.35rem; color: var(--gold-600); }
+.pcard-title { flex-basis: 100%; font-size: .9rem; color: var(--ink-soft); margin-top: -8px; padding-inline-start: 34px; }
+.badge { font-size: .75rem; font-weight: 600; padding: 3px 11px; border-radius: 50px; white-space: nowrap; }
+.badge.ulul { background: var(--green-700); color: #fff; }
+.badge.book { background: var(--gold-500); color: #fff; }
+.badge.ikh { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+[data-theme="dark"] .badge.ikh { color: #e0917f; border-color: #e0917f; }
+.pcard-chev { margin-inline-start: auto; color: var(--ink-soft); transition: transform .3s; }
+.pcard.open .pcard-chev { transform: rotate(180deg); }
+.pcard-body { display: none; padding: 0 20px 18px; }
+.pcard.open .pcard-body { display: block; animation: fadein .3s; }
+.pcard-body .story { font-size: .97rem; }
+.mention-bar { display: flex; align-items: center; gap: 10px; margin: 14px 0 4px; font-size: .85rem; color: var(--ink-soft); }
+.mention-bar .track { flex: 1; height: 8px; background: var(--green-50); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.mention-bar .fill { height: 100%; background: linear-gradient(to right, var(--green-600), var(--gold-500)); border-radius: 8px; width: 0; transition: width 1s ease; }
+.pcard-refs { font-size: .85rem; color: var(--ink-soft); margin-top: 10px; }
+.pcard-note { font-size: .85rem; color: var(--ink-soft); margin-top: 2px; font-style: italic; }
+.pcard-refs::before { content: "মূল আলোচনা: "; font-weight: 700; color: var(--green-700); }
+[data-theme="dark"] .pcard-refs::before { color: var(--gold-300); }
+.pcard-ikh { font-size: .88rem; color: var(--danger); margin-top: 8px; background: rgba(140,59,46,.07); padding: 8px 12px; border-radius: 8px; }
+[data-theme="dark"] .pcard-ikh { color: #e0917f; }
+.pcard-ikh::before { content: "⚖ মতভেদ: "; font-weight: 700; }
+
+.bridge {
+  margin: 6px 0 24px; background: var(--green-50); border: 1px dashed var(--green-600);
+  border-radius: var(--radius); padding: 16px 20px; font-size: .95rem; position: relative;
+}
+.bridge::before { content: "🔗 ধারার সংযোগ"; display: block; font-weight: 700; color: var(--green-700); margin-bottom: 4px; font-size: .85rem; }
+[data-theme="dark"] .bridge::before { color: var(--gold-300); }
+
+/* বেসিকস */
+.basics .card { padding: 18px 20px; }
+.basics b.bt { color: var(--green-700); display: block; margin-bottom: 4px; font-family: var(--bn-serif); }
+[data-theme="dark"] .basics b.bt { color: var(--gold-300); }
+.basics p { font-size: .94rem; color: var(--ink-soft); }
+
+/* পূর্ণ ধারা (চেইন) */
+.chain-wrap { overflow-x: auto; padding: 10px 2px 18px; }
+.chain { display: flex; align-items: center; gap: 0; min-width: max-content; padding: 12px 6px; }
+.chain-node {
+  background: var(--paper); border: 1.5px solid var(--green-600); color: var(--ink);
+  border-radius: 50px; padding: 7px 16px; font-size: .9rem; font-weight: 600; white-space: nowrap;
+  position: relative; text-align: center;
+}
+.chain-node small { display: block; font-size: .68rem; color: var(--ink-soft); font-weight: 400; line-height: 1.3; }
+.chain-node.ulul { background: var(--green-700); color: #fff; border-color: var(--green-700); }
+.chain-node.ulul small { color: #cde3d7; }
+.chain-node.ghost { border-style: dashed; border-color: var(--ink-soft); color: var(--ink-soft); background: transparent; }
+.chain-node.gap { border: 0; background: transparent; color: var(--danger); font-size: .8rem; }
+[data-theme="dark"] .chain-node.gap { color: #e0917f; }
+.chain-node.final { background: var(--gold-600); border-color: var(--gold-600); color: #fff; box-shadow: 0 0 0 4px rgba(193,154,75,.25); }
+.chain-node.mid { border-color: var(--gold-500); border-style: dotted; }
+.chain-sep { color: var(--gold-600); padding: 0 6px; font-size: 1.05rem; flex-shrink: 0; }
+.chain-note { font-size: .85rem; color: var(--ink-soft); margin-top: 4px; }
+
+/* ---------- বনী ইসরাঈল ---------- */
+.phase { position: relative; margin-bottom: 18px; }
+.phase-head { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; }
+.phase-no {
+  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-family: var(--bn-serif); font-weight: 800; font-size: 1.1rem;
+}
+.phase.rise .phase-no { background: var(--green-700); }
+.phase.fall .phase-no { background: var(--danger); }
+.phase.final .phase-no { background: var(--gold-600); }
+.phase-head h3 { font-size: 1.12rem; flex: 1; }
+.phase-head .ic { font-size: 1.3rem; }
+.phase-body { display: none; padding: 0 20px 18px; font-size: .97rem; }
+.phase.open .phase-body { display: block; animation: fadein .3s; }
+.phase-body ul { margin: 10px 0 10px 22px; }
+.phase-body li { margin-bottom: 8px; }
+.phase-refs { font-size: .85rem; color: var(--ink-soft); margin-top: 12px; }
+.phase-refs::before { content: "দলিল: "; font-weight: 700; color: var(--green-700); }
+[data-theme="dark"] .phase-refs::before { color: var(--gold-300); }
+
+/* উত্থান-পতন রেখা */
+.arc-wrap { margin: 8px 0 26px; }
+.arc-wrap svg { width: 100%; height: auto; display: block; }
+.arc-label { font-size: .78rem; fill: var(--ink-soft); font-family: var(--bn); }
+.arc-dot { cursor: pointer; }
+
+/* আয়না */
+.mirror { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--line); }
+.mirror .m-they, .mirror .m-we { padding: 14px 18px; font-size: .94rem; }
+.mirror .m-they { background: rgba(140,59,46,.06); border-inline-end: 1px dashed var(--line); }
+.mirror .m-we { background: var(--green-50); }
+.mirror .m-head { font-weight: 700; font-size: .9rem; }
+.mirror .m-they .m-head { color: var(--danger); }
+.mirror .m-we .m-head { color: var(--green-700); }
+[data-theme="dark"] .mirror .m-they .m-head { color: #e0917f; }
+[data-theme="dark"] .mirror .m-we .m-head { color: var(--gold-300); }
+.hadith-note { margin-top: 18px; border-inline-start: 3px solid var(--green-600); }
+
+/* ---------- উলূম ---------- */
+.topic { padding: 0; overflow: hidden; }
+.topic + .topic { margin-top: 14px; }
+.topic-head { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; }
+.topic-ic {
+  width: 42px; height: 42px; flex-shrink: 0; border-radius: 10px; background: var(--green-50);
+  border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 1.15rem;
+  font-family: var(--ar); color: var(--green-700);
+}
+.topic-head h3 { font-size: 1.1rem; flex: 1; }
+.topic-no { font-family: var(--bn-serif); color: var(--gold-600); font-weight: 800; }
+.topic-body { display: none; padding: 0 20px 18px; font-size: .96rem; }
+.topic.open .topic-body { display: block; animation: fadein .3s; }
+
+/* তুলনা টেবিল */
+.cmp-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: .92rem; border-radius: 10px; overflow: hidden; }
+.cmp-table th, .cmp-table td { padding: 10px 14px; border: 1px solid var(--line); text-align: start; vertical-align: top; }
+.cmp-table th { background: var(--green-700); color: #fff; font-family: var(--bn-serif); }
+.cmp-table td:first-child { font-weight: 600; background: var(--green-50); white-space: nowrap; }
+.table-scroll { overflow-x: auto; }
+
+/* তাফসীর সিঁড়ি */
+.ladder { counter-reset: step; margin-top: 14px; }
+.ladder-step { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+.ladder-step:last-child { border: 0; }
+.ladder-step .no {
+  counter-increment: step; flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--green-700); color: #fff; display: flex; align-items: center; justify-content: center;
+  font-family: var(--bn-serif); font-weight: 800; font-size: .95rem;
+}
+.ladder-step b { display: block; }
+.ladder-step p { font-size: .9rem; color: var(--ink-soft); }
+
+/* ---------- উৎসপঞ্জি ---------- */
+.step-card { display: flex; gap: 18px; align-items: flex-start; }
+.step-card + .step-card { margin-top: 14px; }
+.step-tag {
+  flex-shrink: 0; background: var(--green-700); color: #fff; font-family: var(--bn-serif);
+  font-weight: 700; border-radius: 10px; padding: 8px 14px; font-size: .9rem; margin-top: 4px;
+}
+.step-card.ref .step-tag { background: var(--gold-600); }
+.step-card h3 { font-size: 1.12rem; }
+.step-card .auth { font-size: .88rem; color: var(--gold-600); font-weight: 600; }
+.step-card p { font-size: .93rem; color: var(--ink-soft); margin-top: 4px; }
+.integrity { border-inline-start: 4px solid var(--gold-500); }
+.integrity li { margin: 0 0 12px 20px; font-size: .95rem; }
+
+/* হোম-লিংক কার্ড (সূচনার শেষে) */
+.next-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 50px; flex-wrap: wrap; }
+.next-link {
+  text-decoration: none; color: var(--green-700); font-weight: 600; background: var(--paper);
+  border: 1.5px solid var(--line); padding: 12px 22px; border-radius: 50px; transition: all .2s;
+}
+.next-link:hover { border-color: var(--green-600); background: var(--green-50); }
+[data-theme="dark"] .next-link { color: var(--gold-300); }
+
+footer.site {
+  border-top: 1px solid var(--line); text-align: center; padding: 26px 20px 34px;
+  color: var(--ink-soft); font-size: .85rem; background: var(--paper);
+}
+footer .f-orn { color: var(--gold-500); letter-spacing: .5em; display: block; margin-bottom: 8px; }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .timeline { margin-inline-start: 8px; padding-inline-start: 22px; }
+  .pcard::before { inset-inline-start: -31px; }
+  .stream-head .s-ar { display: none; }
+  .mirror { grid-template-columns: 1fr; }
+  .mirror .m-they { border-inline-end: 0; border-bottom: 1px dashed var(--line); }
+  .tab { font-size: .85rem; padding: 10px 10px 8px; }
+}
