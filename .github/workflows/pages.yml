@@ -1,0 +1,37 @@
+# app/ ফোল্ডারটি GitHub Pages-এ প্রকাশ করে। কোনো বিল্ড-স্টেপ নেই — ফাইলগুলো যেমন আছে তেমনই যায়।
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# একসাথে একটিই ডিপ্লয় চলবে; চলন্ত ডিপ্লয় মাঝপথে থামানো হবে না।
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true          # রিপোতে Pages চালু না থাকলে চালু করে নেবে
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: app                 # শুধু অ্যাপটিই প্রকাশ পাবে; tools/ ও কনটেন্ট-ডক নয়
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
