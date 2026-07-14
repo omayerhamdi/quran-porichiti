@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<!-- ওপেন গ্রাফ ইমেজের সোর্স। রি-জেনারেট করতে: tools/build-og.sh -->
+<link rel="stylesheet" href="../app/fonts/fonts.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1200px; height: 630px; overflow: hidden; }
+
+  .og {
+    width: 1200px; height: 630px; position: relative;
+    background: linear-gradient(145deg, #06231b 0%, #0a3428 45%, #116048 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: "Hind Siliguri", sans-serif; color: #fff; text-align: center;
+  }
+
+  /* সূক্ষ্ম জ্যামিতিক তারকা-নকশা */
+  .og::before {
+    content: ""; position: absolute; inset: 0; opacity: .10;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 64 64'%3E%3Cpath d='M32 4l7 14 15 2-11 11 3 15-14-7-14 7 3-15L10 20l15-2z' fill='none' stroke='%23e2c98f' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 90px;
+  }
+  /* কোণে নরম আলো */
+  .og::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 42%, rgba(226,201,143,.16), transparent 58%);
+  }
+
+  .inner { position: relative; z-index: 2; padding: 0 70px; }
+
+  .bismillah {
+    font-family: "Amiri", serif; direction: rtl;
+    font-size: 40px; color: #e2c98f; letter-spacing: .5px; margin-bottom: 26px;
+  }
+
+  .rule { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 22px; }
+  .rule i { display: block; width: 90px; height: 1px; background: linear-gradient(to right, transparent, #c19a4b); }
+  .rule i:last-child { background: linear-gradient(to left, transparent, #c19a4b); }
+  .rule span { color: #c19a4b; font-size: 17px; letter-spacing: .35em; }
+
+  h1 {
+    font-family: "Noto Serif Bengali", serif; font-weight: 800;
+    font-size: 82px; line-height: 1.32; color: #ffffff;
+    text-shadow: 0 3px 22px rgba(0,0,0,.32); margin-bottom: 20px;
+  }
+
+  .sub {
+    font-size: 27px; color: #c3ddd0; line-height: 1.7; font-weight: 400;
+    max-width: 900px; margin: 0 auto 36px;
+  }
+
+  .chips { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .chip {
+    background: rgba(255,255,255,.09); border: 1px solid rgba(226,201,143,.42);
+    border-radius: 50px; padding: 9px 24px; font-size: 21px; color: #edf6f1;
+    display: flex; align-items: center; gap: 9px; backdrop-filter: blur(2px);
+  }
+  .chip b { font-family: "Noto Serif Bengali", serif; color: #e2c98f; font-weight: 700; }
+
+  .foot {
+    position: absolute; bottom: 30px; left: 0; right: 0; z-index: 2;
+    font-size: 18px; color: #7fa694; letter-spacing: .02em;
+  }
+</style>
+</head>
+<body>
+  <div class="og">
+    <div class="inner">
+      <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+
+      <div class="rule"><i></i><span>✦ ✦ ✦</span><i></i></div>
+
+      <h1>আল-কুরআন: এক নজরে</h1>
+
+      <p class="sub">কুরআন কী নিয়ে কথা বলে, নবীরা এলেন কোন ধারায় —<br>পুরো ছবিটা এক পলকে</p>
+
+      <div class="chips">
+        <span class="chip"><b>১১৪</b> সূরা</span>
+        <span class="chip"><b>৬,২৩৬</b> আয়াত</span>
+        <span class="chip"><b>২৫</b> নবীর সিলসিলা</span>
+        <span class="chip"><b>৫</b> ধারা</span>
+      </div>
+    </div>
+
+    <div class="foot">শিক্ষক · তালিবুল ইলম · আগ্রহী পাঠক — সবার জন্য</div>
+  </div>
+</body>
+</html>

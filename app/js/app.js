@@ -28,7 +28,7 @@
     if (!faqs || !faqs.length) return "";
     return `<div class="section">
       <h2>জিজ্ঞাসা ও জবাব</h2>
-      <p class="section-note">পাঠকের স্বাভাবিক প্রশ্নের আগাম উত্তর — প্রশ্নে চাপ দিলে জবাব খুলবে।</p>
+      <p class="section-note">পড়তে পড়তে মনে যে প্রশ্নগুলো জাগে, সেগুলোরই জবাব। প্রশ্নে চাপ দিন।</p>
       ${faqs.map(f => `
         <div class="acc">
           <button class="acc-q" aria-expanded="false">
@@ -102,6 +102,7 @@
       ${pageTitle(d.title)}
       <p class="lead">${d.lead1}</p>
       <p class="lead" style="margin-top:14px">${d.lead2}</p>
+      <p class="lead" style="margin-top:14px">${d.lead3}</p>
 
       <div class="section">
         <h2>মৌলিক পরিচিতি</h2>
@@ -117,7 +118,7 @@
 
       <div class="section">
         <h2>মাক্কী ও মাদানী সূরার অনুপাত</h2>
-        <p class="section-note">প্রসিদ্ধ গণনা অনুযায়ী; কয়েকটি সূরায় মতভেদ আছে — নিচের জিজ্ঞাসা দ্রষ্টব্য।</p>
+        <p class="section-note">প্রসিদ্ধ গণনা অনুযায়ী। ক'টি সূরা নিয়ে আলিমদের মতভেদ আছে — কথাটা নিচের জিজ্ঞাসায় বলা হয়েছে।</p>
         <div class="mm-bar" role="img" aria-label="মাক্কী ৮৬, মাদানী ২৮">
           <div class="mk" style="width:${mkPct}%">মাক্কী — ${toBn(mm.makki)}টি</div>
           <div class="md" style="width:${100 - mkPct}%">মাদানী — ${toBn(mm.madani)}টি</div>
@@ -134,7 +135,7 @@
               <h3>${t.name}</h3>
               <div class="t-short">${t.short}</div>
               <div class="t-desc">${t.desc}</div>
-              <div class="t-hint">বিস্তারিত দেখতে চাপ দিন ▾</div>
+              <div class="t-hint">একটু বিস্তারিত দেখুন ▾</div>
             </div>`).join("")}
         </div>
       </div>
@@ -160,7 +161,7 @@
           const toggle = () => {
             c.classList.toggle("open");
             c.setAttribute("aria-expanded", c.classList.contains("open"));
-            c.querySelector(".t-hint").textContent = c.classList.contains("open") ? "বন্ধ করতে চাপ দিন ▴" : "বিস্তারিত দেখতে চাপ দিন ▾";
+            c.querySelector(".t-hint").textContent = c.classList.contains("open") ? "গুটিয়ে নিন ▴" : "একটু বিস্তারিত দেখুন ▾";
           };
           c.addEventListener("click", toggle);
           c.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
@@ -180,7 +181,7 @@
 
       <div class="section">
         <h2>পাঁচটি ধারা</h2>
-        <p class="section-note">প্রতিটি ধারায় চাপ দিলে বিস্তারিত ও কুরআনের উদাহরণ খুলবে।</p>
+        <p class="section-note">এক এক করে দেখুন — কোন ধারায় চাপ দিলে ভেতরে ব্যাখ্যা আর কুরআনের উদাহরণ পাবেন।</p>
         ${d.list.map(s => `
           <div class="card stream ${s.color}">
             <div class="stream-head" role="button" tabindex="0" aria-expanded="false">
@@ -254,10 +255,10 @@
           else if (+b.dataset.i === chosen) b.classList.add("wrong");
         });
         const why = box.querySelector(".quiz-why");
-        why.innerHTML = (ok ? "✅ সঠিক! " : "🔁 সঠিক উত্তরটি চিহ্নিত করা হলো। ") + q.why;
+        why.innerHTML = (ok ? "✅ ঠিক ধরেছেন। " : "🔁 এবার হলো না — সঠিকটি সবুজ করে দেখানো হলো। ") + q.why;
         why.classList.add("show");
         const nx = box.querySelector(".quiz-next");
-        nx.textContent = idx + 1 < quiz.questions.length ? "পরের প্রশ্ন →" : "ফলাফল দেখুন →";
+        nx.textContent = idx + 1 < quiz.questions.length ? "পরেরটি দেখি →" : "ফলাফল দেখি →";
         nx.classList.add("show");
         nx.addEventListener("click", () => { idx++; showQ(); }, { once: true });
       }));
@@ -269,11 +270,11 @@
         <div class="quiz-score">
           <div class="big">${toBn(score)} / ${toBn(quiz.questions.length)}</div>
           <p>${score === quiz.questions.length
-            ? "মাশাআল্লাহ! পাঁচটি ধারাই আপনার আয়ত্তে।"
+            ? "মাশাআল্লাহ! পাঁচটি ধারাই আপনার ধরা হয়ে গেছে। এবার কুরআন খুলুন — দেখবেন, আলোচনা আর এলোমেলো লাগছে না।"
             : score >= Math.ceil(quiz.questions.length * .6)
-              ? "ভালো! ভুল হওয়া প্রশ্নের ব্যাখ্যাগুলো আরেকবার দেখে নিন।"
-              : "আরেকবার উপরের পাঁচ ধারাটি পড়ে পুনরায় চেষ্টা করুন — এবার সহজ মনে হবে ইনশাআল্লাহ।"}</p>
-          <button class="quiz-next show" style="margin-top:10px">আবার চেষ্টা করুন ⟲</button>
+              ? "বেশ হয়েছে। যে ক'টি ভুল হলো, ওগুলোর ব্যাখ্যা আরেকবার চোখ বুলিয়ে নিন — কাঁচা জায়গাটা ওখানেই।"
+              : "ভয়ের কিছু নেই। উপরে ফিরে গিয়ে পাঁচটি ধারা আরেকবার পড়ুন, তারপর আবার বসুন — এবার অনেক সহজ লাগবে ইনশাআল্লাহ।"}</p>
+          <button class="quiz-next show" style="margin-top:10px">আরেকবার বসি ⟲</button>
         </div>`;
       box.querySelector(".quiz-next").addEventListener("click", () => { idx = 0; results.length = 0; showQ(); });
     }
@@ -287,7 +288,7 @@
     const maxMention = 136;
 
     const pcardHTML = p => `
-      <div class="card pcard ${p.ulul ? "ulul" : ""}">
+      <div class="card pcard ${p.ulul ? "ulul" : ""}" id="p-${p.n}">
         <div class="pcard-head" role="button" tabindex="0" aria-expanded="false">
           <span class="pcard-no">${toBn(p.n)}</span>
           <span class="pcard-name">${p.name} ${p.n === 25 ? "" : "আলাইহিস সালাম"}</span>
@@ -311,31 +312,138 @@
         </div>
       </div>`;
 
-    const chainHTML = () => {
-      const parts = [];
-      DATA.prophets.chain.items.forEach((it, i) => {
-        if (it.type === "split") {
-          parts.push(`<span class="chain-sep">→</span><span class="chain-node mid">দুই ধারা<small>${it.left} · ${it.right}</small></span>`);
-          return;
-        }
-        if (i > 0) parts.push(`<span class="chain-sep">→</span>`);
-        const cls = it.type === "ulul" ? "ulul" : it.type === "ghost" ? "ghost" : it.type === "gap" ? "gap" : it.type === "final" ? "final" : it.type === "mid" ? "mid" : "";
-        parts.push(`<span class="chain-node ${cls}">${it.name}${it.note ? `<small>${it.note}</small>` : ""}</span>`);
-      });
-      return parts.join("");
+    /* ---- সিলসিলা-মানচিত্র (SVG) ---- */
+    const M = d.map;
+    const byId = Object.fromEntries(M.nodes.map(n => [n.id, n]));
+    const nodeW = n => n.w || 140;
+    const nodeH = n => n.small ? 24 : (n.sub ? 46 : 34);
+
+    /* দুই নোডের মাঝে সংযোগরেখা: খাড়া হলে কনুই-বাঁক, পাশাপাশি হলে সরলরেখা */
+    function edgePath(e) {
+      const b = byId[e.b], bw = nodeW(b) / 2, bh = nodeH(b) / 2;
+      if (e.tap) {
+        const [tx, ty] = e.tap;
+        const side = b.x < tx ? b.x + bw : b.x - bw;   // নোডের যে পাশ মূল রেখার দিকে
+        if (b.y === ty) return `M${tx} ${ty} L${side} ${ty}`;
+        const mx = (tx + side) / 2;                    // বন্ধনী-আকৃতির বাঁক
+        return `M${tx} ${ty} L${mx} ${ty} L${mx} ${b.y} L${side} ${b.y}`;
+      }
+      const a = byId[e.a], aw = nodeW(a) / 2, ah = nodeH(a) / 2;
+      if (e.t === "h") {
+        const [x1, x2] = a.x < b.x ? [a.x + aw, b.x - bw] : [a.x - aw, b.x + bw];
+        return `M${x1} ${a.y} L${x2} ${b.y}`;
+      }
+      const y1 = a.y + ah, y2 = b.y - bh, mid = (y1 + y2) / 2;
+      return a.x === b.x
+        ? `M${a.x} ${y1} L${b.x} ${y2}`
+        : `M${a.x} ${y1} L${a.x} ${mid} L${b.x} ${mid} L${b.x} ${y2}`;
+    }
+
+    const chipHTML = c => {
+      const h = c.lines.length * 15 + 10;
+      return `<g class="mp-chip ${c.cls}">
+        <rect x="${c.x - c.w / 2}" y="${c.y - h / 2}" width="${c.w}" height="${h}" rx="9"/>
+        ${c.lines.map((ln, i) =>
+          `<text x="${c.x}" y="${c.y - h / 2 + 16 + i * 15}" text-anchor="middle">${ln}</text>`).join("")}
+      </g>`;
     };
+
+    const mapNodeHTML = n => {
+      const w = nodeW(n), h = nodeH(n), p = n.n ? d.eras.flatMap(e => e.prophets).find(x => x.n === n.n) : null;
+      const tip = p ? `${p.name} আলাইহিস সালাম — ${p.title} · কুরআনে ${toBn(p.mentions)} বার` : `${n.name} — ${n.sub || ""}`;
+      const nameY = n.sub && !n.small ? n.y - 3 : n.y + (n.small ? 4 : 5);
+      return `<g class="mp-node ${n.kind}${n.n ? " clickable" : ""}"
+                 ${n.n ? `data-n="${n.n}" role="button" tabindex="0"` : ""}
+                 data-tip="${tip.replace(/"/g, "&quot;")}">
+        <rect x="${n.x - w / 2}" y="${n.y - h / 2}" width="${w}" height="${h}" rx="${n.small ? 12 : 10}"/>
+        <text class="mp-name" x="${n.x}" y="${nameY}" text-anchor="middle"
+              style="font-size:${n.small ? 12 : 14}px">${n.name}</text>
+        ${n.sub && !n.small ? `<text class="mp-sub" x="${n.x}" y="${n.y + 13}" text-anchor="middle">${n.sub}</text>` : ""}
+      </g>`;
+    };
+
+    const mapHTML = () => `
+      <div class="mp-wrap">
+        <div class="mp-legend">
+          ${M.legend.map(l => `<span class="mp-lg ${l.k}"><i></i>${l.t}</span>`).join("")}
+        </div>
+        <div class="mp-scroll">
+          <svg viewBox="${M.vb}" class="mp-svg" role="img"
+               aria-label="আদম আলাইহিস সালাম থেকে মুহাম্মাদ ﷺ পর্যন্ত নবীগণের সিলসিলা-মানচিত্র">
+            ${M.bands.map(b => `
+              <g class="mp-band">
+                <rect x="8" y="${b.y}" width="944" height="${b.h}" rx="14"/>
+                <text x="26" y="${b.y + 21}">${b.t}</text>
+              </g>`).join("")}
+            ${M.paths.map(p => `<path class="mp-path ${p.cls}" d="${p.d}"><title>${p.title}</title></path>`).join("")}
+            ${M.edges.map(e => `<path class="mp-edge${e.d ? " dashed" : ""}" d="${edgePath(e)}"/>`).join("")}
+            ${M.chips.map(chipHTML).join("")}
+            ${M.nodes.map(mapNodeHTML).join("")}
+          </svg>
+        </div>
+        <div class="mp-tip" hidden></div>
+      </div>`;
+
+    /* মানচিত্রের নোডে চাপ → নিচের সংশ্লিষ্ট কার্ড খুলে সেখানে নিয়ে যাওয়া */
+    function bindMap(root) {
+      const wrap = root.querySelector(".mp-wrap");
+      if (!wrap) return;
+      const tip = wrap.querySelector(".mp-tip");
+
+      wrap.querySelectorAll(".mp-node").forEach(g => {
+        g.addEventListener("mouseenter", () => {
+          tip.textContent = g.dataset.tip;
+          tip.hidden = false;
+        });
+        g.addEventListener("mousemove", e => {
+          const r = wrap.getBoundingClientRect();
+          tip.style.left = Math.min(Math.max(e.clientX - r.left, 90), r.width - 90) + "px";
+          tip.style.top = (e.clientY - r.top - 14) + "px";
+        });
+        g.addEventListener("mouseleave", () => { tip.hidden = true; });
+
+        if (!g.dataset.n) return;
+        const go = () => {
+          const card = root.querySelector("#p-" + g.dataset.n);
+          if (!card) return;
+          card.classList.add("open");
+          card.querySelector(".pcard-head").setAttribute("aria-expanded", "true");
+          const fill = card.querySelector(".fill");
+          requestAnimationFrame(() => { fill.style.width = fill.dataset.w + "%"; });
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+          card.classList.remove("flash");
+          void card.offsetWidth;            // অ্যানিমেশন রিস্টার্ট করাতে
+          card.classList.add("flash");
+        };
+        g.addEventListener("click", go);
+        g.addEventListener("keydown", e => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); }
+        });
+      });
+    }
 
     return {
       html: `
-      ${pageTitle(d.title, "আদম আলাইহিস সালাম থেকে মুহাম্মাদ ﷺ পর্যন্ত — কুরআনে নামোল্লেখকৃত ২৫ জন নবী-রাসূলের ধারাবাহিক পরিচয়। প্রতিটি কার্ডে চাপ দিলে বিস্তারিত খুলবে; সবুজ বিন্দু ও ব্যাজ চিহ্নিত করছে উলুল আযম রাসূলদের।")}
+      ${pageTitle(d.title, "আদম আলাইহিস সালাম থেকে মুহাম্মাদ ﷺ — কুরআন যে ২৫ জন নবীর নাম নিয়েছে, তাঁরা এলেন একের পর এক, এক ধারায় গাঁথা। প্রথমে পুরো ছবিটা মানচিত্রে দেখে নিন; তারপর একজন একজন করে।")}
 
       <div class="section basics">
         <h2>শুরুর কথা: চারটি মৌলিক জ্ঞান</h2>
-        <p class="section-note">নবীদের ধারা বোঝার আগে এ চারটি বিষয় পরিষ্কার থাকা দরকার — নইলে পদে পদে প্রশ্ন জাগবে।</p>
+        <p class="section-note">নবীদের ধারায় ঢোকার আগে এ চারটি কথা পরিষ্কার থাকা চাই — নইলে পদে পদে খটকা লাগবে।</p>
         <div class="grid c2">
           ${d.basics.map(b => `<div class="card"><b class="bt">${b.t}</b><p>${b.d}</p></div>`).join("")}
         </div>
       </div>
+
+      <div class="section">
+        <h2>${M.title}</h2>
+        <p class="section-note">${M.note} <span class="mp-hint">${M.hint}</span></p>
+        ${mapHTML()}
+      </div>
+
+      <div class="divider-orn">✦ ✦ ✦</div>
+      <p class="section-note" style="text-align:center">
+        এবার একজন একজন করে — যুগ ধরে, ধারা ধরে।
+      </p>
 
       ${d.eras.map(era => `
         <div class="era">
@@ -354,16 +462,11 @@
           ${era.bridge ? `<div class="bridge">${era.bridge}</div>` : ""}
         </div>`).join("")}
 
-      <div class="section">
-        <h2>${d.chain.title}</h2>
-        <p class="chain-note">${d.chain.note}</p>
-        <div class="card chain-wrap"><div class="chain">${chainHTML()}</div></div>
-      </div>
-
       ${faqHTML(d.faq)}
       ${srcHTML(d.sources)}
       ${nextNav(ROUTES[1], ROUTES[3])}`,
       after(root) {
+        bindMap(root);
         bindToggles(root, ".pcard-head", ".pcard");
         root.querySelectorAll(".pcard-head").forEach(h => h.addEventListener("keydown", e => {
           if (e.key === "Enter" || e.key === " ") { e.preventDefault(); h.click(); }
@@ -418,7 +521,7 @@
 
       <div class="section">
         <h2>এক নজরে ছয় পর্ব — উত্থান ও পতনের রেখা</h2>
-        <p class="section-note">রেখাটি জাতির অবস্থার ওঠানামা দেখাচ্ছে; যে কোনো বিন্দুতে চাপ দিলে সংশ্লিষ্ট পর্ব খুলে যাবে।</p>
+        <p class="section-note">রেখাটি উঠছে-নামছে জাতির অবস্থার সাথে সাথে। যে কোনো বিন্দুতে চাপ দিন — সেই পর্বটি নিচে খুলে যাবে।</p>
         ${arcSVG}
         ${d.phases.map((ph, i) => `
           <div class="card phase ${ph.tone}" id="phase-${i}">
@@ -477,7 +580,7 @@
 
       <div class="section">
         <h2>আটটি মৌলিক বিষয়</h2>
-        <p class="section-note">প্রতিটি বিষয়ে চাপ দিলে ব্যাখ্যা ও উদাহরণ খুলবে।</p>
+        <p class="section-note">নামগুলো শুনতে ভারী, কিন্তু কথাগুলো সহজ। যেটিতে চাপ দেবেন, সেটির ব্যাখ্যা উদাহরণসহ খুলে যাবে।</p>
         ${d.topics.map(t => `
           <div class="card topic">
             <div class="topic-head" role="button" tabindex="0" aria-expanded="false">

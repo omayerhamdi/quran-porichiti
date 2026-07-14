@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>সামঞ্জস্য-পরীক্ষা — আল-কুরআন: এক নজরে</title>
+<link rel="stylesheet" href="../app/fonts/fonts.css">
+<style>
+  body { font-family: "Hind Siliguri", sans-serif; background: #faf6ee; color: #22322c;
+         max-width: 780px; margin: 50px auto; padding: 0 22px; line-height: 1.9; }
+  h1 { font-family: "Noto Serif Bengali", serif; color: #0d4534; font-size: 1.5rem; }
+  .box { border-radius: 14px; padding: 18px 24px; margin-top: 20px; border: 1px solid #e3ddcd; background: #fff; }
+  .ok { border-inline-start: 6px solid #177a5b; }
+  .bad { border-inline-start: 6px solid #8c3b2e; }
+  .ok h2 { color: #116048; } .bad h2 { color: #8c3b2e; }
+  h2 { font-family: "Noto Serif Bengali", serif; font-size: 1.15rem; margin-bottom: 6px; }
+  li { margin-bottom: 8px; }
+  .sum { color: #55685f; font-size: .95rem; }
+  code { background: #edf6f1; padding: 2px 7px; border-radius: 5px; font-size: .9em; }
+</style>
+</head>
+<body>
+  <h1>সামঞ্জস্য-পরীক্ষা</h1>
+  <p class="sum">কার্ড আর সিলসিলা-মানচিত্রের তথ্য একে অন্যের সাথে মেলে কি না, সংখ্যাগুলো পাতায় পাতায় এক আছে কি না — তা এখানে যাচাই হয়।
+     কনটেন্ট (<code>app/js/data.js</code>) বদলানোর পর এ পাতাটি একবার খুলে দেখে নেবেন।</p>
+  <div id="out"></div>
+
+  <script src="../app/js/data.js"></script>
+  <script src="checks.js"></script>
+  <script>
+    const r = runChecks(DATA);
+    document.getElementById("out").innerHTML = r.ok
+      ? `<div class="box ok">
+           <h2>✓ সব মিলে গেছে</h2>
+           <p>কোথাও বৈপরীত্য নেই।</p>
+           <p class="sum">${r.summary}</p>
+         </div>`
+      : `<div class="box bad">
+           <h2>✗ ${r.problems.length}টি অসামঞ্জস্য</h2>
+           <ul>${r.problems.map(p => `<li>${p}</li>`).join("")}</ul>
+           <p class="sum">${r.summary}</p>
+         </div>`;
+  </script>
+</body>
+</html>
